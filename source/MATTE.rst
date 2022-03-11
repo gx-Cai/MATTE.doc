@@ -9,26 +9,9 @@ Core class
    :undoc-members:
    :show-inheritance:
 
+
 Submodules
 ----------
-
-MATTE.preprocess
------------------------
-
-.. automodule:: MATTE.preprocess
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-MATTE.cluster
---------------------
-
-.. automodule:: MATTE.cluster
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 
 MATTE.analysis
 ---------------------
@@ -38,13 +21,28 @@ MATTE.analysis
    :undoc-members:
    :show-inheritance:
 
+MATTE.cluster 
+--------------------
 
+.. automodule:: MATTE.cluster
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-MATTE.utils
+MATTE.preprocess 
+-----------------------
+
+.. automodule:: MATTE.preprocess
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+MATTE.utils 
 ------------------
 
 .. automodule:: MATTE.utils
    :members:
    :undoc-members:
    :show-inheritance:
+
 
