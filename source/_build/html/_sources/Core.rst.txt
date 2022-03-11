@@ -1,0 +1,36 @@
+
+API
+=============
+.. autosummary::
+   :toctree: generated
+
+.. autoclass:: MATTE.PipeFunc
+
+    .. autofunction:: MATTE.PipeFunc.__init__
+    .. autofunction:: MATTE.PipeFunc.__str__
+    .. autofunction:: MATTE.PipeFunc.__call__
+    .. autofunction:: MATTE.PipeFunc.add_params
+
+
+.. autoclass:: MATTE.AlignPipe
+
+    .. autofunction:: MATTE.AlignPipe.add_param
+    .. autofunction:: MATTE.AlignPipe.add_step
+    .. autofunction:: MATTE.AlignPipe.add_transformer
+    .. autofunction:: MATTE.AlignPipe.calculate
+    .. autofunction:: MATTE.AlignPipe.calculate_from_temp
+    .. autofunction:: MATTE.AlignPipe.default_pipeline
+    .. autofunction:: MATTE.AlignPipe.fit_transform
+    .. autofunction:: MATTE.AlignPipe.get_attribute_from_transformer
+    .. autofunction:: MATTE.AlignPipe.set_cluster_method
+    .. autofunction:: MATTE.AlignPipe.transform
+
+.. autoclass:: MATTE.ModuleEmbedder
+
+    .. autofunction:: MATTE.ModuleEmbedder.gene_rank
+    .. autofunction:: MATTE.ModuleEmbedder.pipeline_clustering
+    .. autofunction:: MATTE.ModuleEmbedder.save
+    .. autofunction:: MATTE.ModuleEmbedder.transform
+    .. autofunction:: MATTE.ModuleEmbedder.transform_fit
+
+.. autoclass:: MATTE.package_test
