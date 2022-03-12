@@ -36,7 +36,7 @@ Genes’ Clustering
 
 .. code:: ipython3
 
-    ## In TenaPipe stores some functions (PipeFunc type)
+    ## In Pipeline stores some functions (PipeFunc type)
     pipeline.funcs,pipeline.cluster_func
 
 
@@ -466,7 +466,7 @@ Module Analysis
 
 .. code:: ipython3
 
-    from TENA.analysis import Fig_SampleFeature
+    from MATTE.analysis import Fig_SampleFeature
     
     # Showing the Summary.
     R.summary()
@@ -737,7 +737,7 @@ The format of input files are following:
 
 .. code:: ipython3
 
-    from TENA.analysis import FunctionEnrich
+    from MATTE.analysis import FunctionEnrich
     funEnrichRes = FunctionEnrich(annote_file,gene_set)
     all_items,term_genes = funEnrichRes
 
@@ -936,7 +936,7 @@ The function FunctionEnrich return two object:
 
 .. code:: ipython3
 
-    from TENA.analysis import Fig_Fuction
+    from MATTE.analysis import Fig_Fuction
     f = Fig_Fuction(target,"p_value",dpi=300)
 
 
