@@ -62,4 +62,5 @@ Indices and tables
    :caption: Contents:
 .. toctree:: 
    MATTE
-   Usergide
+   UserGide
+   QuickStart

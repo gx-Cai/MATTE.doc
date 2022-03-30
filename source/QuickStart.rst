@@ -1,5 +1,46 @@
-User Guide
-========================
+MATTE package Quick Start
+=========================
+
+Description
+-----------
+
+MATTE (Module Alignment of TranscripTomE) is a python package aiming to
+analysis transcriptome from samples with different phenotypes in a
+module view. Differiential expression (DE) is commonly used in analysing
+transcriptome data. But genes are not work alone, they collaborate.
+Network and module based differential methods are developed in recent
+years to obtain more information. New problems appears that how to make
+sure module or network structure is preserved in all of the phenotypes.
+To that end, we proposed MATTE to find the conserved module and diverged
+module by treating genes from different phenotypes as individual ones.
+By doing so, meaningful markers and modules can be found to better
+understand what’s really difference between phenotypes.
+
+**Advantages**
+
+In the first place, MATTE merges the data from phenotypes, seeing genes
+from different phenotypes as new analyzing unite. By doing so, benefits
+got as follows:
+
+1. MATTE considering the information in phenotypes in the preprocessing
+   stage, hoping to find more interesting conclusion.
+2. MATTE is actually making transcriptome analysis includes the
+   relationship between phenotypes, which is of significance in cancer
+   or other complex phenotypes.
+3. MATTE can deal with more noise thanks to calculation of relative
+   different expression (RDE) and ignore some of batch effect.
+4. In a module view, “Markers” can be easily transfer to other case but
+   not over fits compare to in a gene view.
+5. The result of MATTE can be easily analysed.
+
+Install
+-------
+
+Install from pip is recommended.
+
+::
+
+   pip install MATTE
 
 Genes’ Clustering
 -----------------
@@ -8,14 +49,23 @@ Genes’ Clustering
 2. CLustering
 3. Analysis
 
+Pipeline
+~~~~~~~~
+
 .. code:: ipython3
 
     import MATTE
+    print(MATTE.__version__)
     ## init with default settings
     pipeline = MATTE.AlignPipe(init=True)
     ## Showing the Pipe composition
     pipeline
 
+
+.. parsed-literal::
+
+    1.1.1
+    
 
 
 
@@ -36,7 +86,7 @@ Genes’ Clustering
 
 .. code:: ipython3
 
-    ## In Pipeline stores some functions (PipeFunc type)
+    ## In TenaPipe stores some functions (PipeFunc type)
     pipeline.funcs,pipeline.cluster_func
 
 
@@ -62,9 +112,16 @@ Genes’ Clustering
 
 .. code:: ipython3
 
+    # basic usage
+    R = pipeline.calculate(df_exp=data['df_exp'],df_pheno=data['df_pheno'])
+
+Inputs
+~~~~~~
+
+.. code:: ipython3
+
     ## Standard inputs
     data['df_exp']
-
 
 
 
@@ -382,11 +439,9 @@ Genes’ Clustering
     </div>
 
 
-
 .. code:: ipython3
 
     data['df_pheno']
-
 
 
 
@@ -406,11 +461,162 @@ Genes’ Clustering
     Length: 100, dtype: object
 
 
+Clustering Results
+~~~~~~~~~~~~~~~~~~
 
 .. code:: ipython3
 
-    # basic usage
-    R = pipeline.calculate(df_exp=data['df_exp'],df_pheno=data['df_pheno'])
+    R.cluster_properties
+
+
+
+
+.. parsed-literal::
+
+    {'error': 23.744632494143193,
+     'method': 'kmeans_a',
+     'dist_type': 'a',
+     'n_clusters': 8,
+     'npass': 20,
+     'score': 5099.612952032368,
+     'Process': "MATTE calculation pipeline\n## STEP 0 \t<PipeFunc> inputs_check()\n## STEP 1 \t<PipeFunc> RPKM2TPM()\n## STEP 2 \t<PipeFunc> log2transform()\n## STEP 3 \t<PipeFunc> exp_filter(gene_filter=None)\n## STEP 4 \t<PipeFunc> Kernel_transform(kernel_type='mean',centering_kernel=True,outer_subtract_absolute=True,double_centering=True)\n## STEP 5 \tPCA(n_components=16)\n## STEP 6 \t<PipeFunc> adding_weights()\n## CLUSTER STEP 0 \t<PipeFunc> CrossCluster()\n## CLUSTER STEP 1 \t<PipeFunc> build_results()\n"}
+
+
+
+.. code:: ipython3
+
+    R.res
+
+
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: right;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>P0</th>
+          <th>P1</th>
+          <th>matched</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>gene0</th>
+          <td>3</td>
+          <td>4</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>gene1</th>
+          <td>0</td>
+          <td>3</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>gene2</th>
+          <td>3</td>
+          <td>7</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>gene3</th>
+          <td>4</td>
+          <td>0</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>gene4</th>
+          <td>1</td>
+          <td>4</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>...</th>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+        </tr>
+        <tr>
+          <th>gene995</th>
+          <td>0</td>
+          <td>0</td>
+          <td>True</td>
+        </tr>
+        <tr>
+          <th>gene996</th>
+          <td>6</td>
+          <td>2</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>gene997</th>
+          <td>3</td>
+          <td>3</td>
+          <td>True</td>
+        </tr>
+        <tr>
+          <th>gene998</th>
+          <td>5</td>
+          <td>7</td>
+          <td>False</td>
+        </tr>
+        <tr>
+          <th>gene999</th>
+          <td>0</td>
+          <td>0</td>
+          <td>True</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>1000 rows × 3 columns</p>
+    </div>
+
+
+
+.. code:: ipython3
+
+    from MATTE.analysis import Fig_SampleFeature
+    sf = R.SampleFeature()
+    f = Fig_SampleFeature(sf,R.pheno)
+
+
+
+.. image:: output_14_0.png
+
+
+.. code:: ipython3
+
+    R.ModuleSNR(sf)[0:5]
+
+
+
+
+.. parsed-literal::
+
+    M3.4_0    5.639699
+    M4.3_0    4.175571
+    M0.3_0    3.417767
+    M3.7_0    3.283632
+    M5.3_0    3.222075
+    dtype: float64
+
+
 
 Embedder
 --------
@@ -427,14 +633,13 @@ In this step, multiple phenotypes can be received.
 
 .. code:: ipython3
 
-    embedder.pipeline_clustering(X = data['df_exp'].T, y=data['df_pheno'])
     gene_rank = embedder.gene_rank(X = data['df_exp'].T, y=data['df_pheno'])
     gene_rank
 
 
 .. parsed-literal::
 
-    round 0: P0 vs P1: 100%|█████████████████████████████████████████████████████████████████| 1/1 [00:01<00:00,  1.28s/it]
+    round 0: P0 vs P1: 100%|██████████| 1/1 [00:01<00:00,  1.34s/it]
     
 
 .. parsed-literal::
@@ -446,17 +651,17 @@ In this step, multiple phenotypes can be received.
 
 .. parsed-literal::
 
-    gene0      13.876199
-    gene1       7.365855
-    gene2       8.321715
-    gene3       6.935850
-    gene4       3.020463
+    gene0      14.136113
+    gene1       6.884732
+    gene2       7.687132
+    gene3       6.754049
+    gene4       2.986378
                  ...    
-    gene995     0.444546
-    gene996     0.351537
+    gene995     0.099898
+    gene996     0.000000
     gene997     0.000000
-    gene998     0.306620
-    gene999     0.444546
+    gene998     0.095282
+    gene999     0.099898
     Length: 1000, dtype: float64
 
 
@@ -466,7 +671,7 @@ Module Analysis
 
 .. code:: ipython3
 
-    from MATTE.analysis import Fig_SampleFeature
+    from TENA.analysis import Fig_SampleFeature
     
     # Showing the Summary.
     R.summary()
@@ -482,15 +687,15 @@ Module Analysis
 .. parsed-literal::
 
     # --- Number of genes:
-    Same Module Genes: 599
-    Different Module Genes: 401
+    Same Module Genes: 613
+    Different Module Genes: 387
     # --- clustering score:
-    error 23.363427066543366
+    error 23.68317251501341
     method kmeans_a
     dist_type a
     n_clusters 8
     npass 20
-    score 5390.272705183302
+    score 9367.940233968568
     Process MATTE calculation pipeline
     ## STEP 0 	<PipeFunc> inputs_check()
     ## STEP 1 	<PipeFunc> RPKM2TPM()
@@ -506,23 +711,15 @@ Module Analysis
     
 
 
-
-.. parsed-literal::
-
-    (<Figure size 1800x1200 with 2 Axes>, <Figure size 900x600 with 1 Axes>)
+.. image:: output_20_1.png
 
 
 
-
-.. image:: output_13_2.png
-
-
-
-.. image:: output_13_3.png
+.. image:: output_20_2.png
 
 
 Function Analysis
----------------
+~~~~~~~~~~~~~~~~~
 
 Read go annote files. File can be downloaded from
 https://ftp.ncbi.nih.gov/gene/DATA/
@@ -544,23 +741,13 @@ https://ftp.ncbi.nih.gov/gene/DATA/
     annote_file.columns = lst_change(annote_file.columns,"GO_term","Term")
     annote_file.columns = lst_change(annote_file.columns,"GO_ID","Term_ID")
 
-But in this file, the genes’id is not Ensembl ID. Make Sure that gene id
-is corresponding.
-
-Use annother annote file to transform gene id.
-
 .. code:: ipython3
 
-    idmap=pd.read_table("A:/Data/Annotation/gene2ensembl")
-    idmap = idmap[idmap["#tax_id"] == 9606][["GeneID","Ensembl_gene_identifier"]]
-    idmap.index = idmap["Ensembl_gene_identifier"]
-    idmap = idmap["GeneID"]
-    idmap = idmap.astype(str)
-    
-    ## Specify gene set 
-    gene_set = R.res.index[(R.res.iloc[:,0:2] == [1,1]).all(axis=1)]
-    gene_set = pd.Series([i.split(".")[0] for i in gene_set])
-    gene_set = idmap.loc[gene_set[gene_set.isin(idmap.index)]].dropna().astype(int)
+    ## randomly select some genes
+    import numpy as np
+    from random import sample
+    unique_genes = np.unique(annote_file['GeneID'].values)
+    selected_genes = sample(unique_genes.tolist(),100)
 
 The format of input files are following:
 
@@ -737,14 +924,13 @@ The format of input files are following:
 
 .. code:: ipython3
 
-    from MATTE.analysis import FunctionEnrich
-    funEnrichRes = FunctionEnrich(annote_file,gene_set)
-    all_items,term_genes = funEnrichRes
+    from TENA.analysis import FunctionEnrich
+    all_items,term_genes = FunctionEnrich(annote_file,selected_genes)
 
 
 .. parsed-literal::
 
-    100%|███████████████████████████████████████████████████████████████████████████| 18684/18684 [01:51<00:00, 166.91it/s]
+    100%|██████████| 18684/18684 [02:06<00:00, 147.40it/s]
     
 
 The function FunctionEnrich return two object:
@@ -790,143 +976,159 @@ The function FunctionEnrich return two object:
           <th>n_backgroud</th>
           <th>p_value</th>
           <th>fdr</th>
+          <th>gene_ratio</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th>GO:0005964</th>
-          <td>phosphorylase kinase complex</td>
+          <th>GO:0005685</th>
+          <td>U1 snRNP</td>
+          <td>Component</td>
+          <td>3</td>
+          <td>33</td>
+          <td>0.000538</td>
+          <td>0.94667</td>
+          <td>0.03</td>
+        </tr>
+        <tr>
+          <th>GO:0034709</th>
+          <td>methylosome</td>
           <td>Component</td>
           <td>2</td>
-          <td>5</td>
-          <td>0.000424</td>
-          <td>0.556305</td>
+          <td>12</td>
+          <td>0.001479</td>
+          <td>1.0</td>
+          <td>0.02</td>
         </tr>
         <tr>
-          <th>GO:0000109</th>
-          <td>nucleotide-excision repair complex</td>
-          <td>Component</td>
-          <td>2</td>
-          <td>6</td>
-          <td>0.000633</td>
-          <td>0.556305</td>
-        </tr>
-        <tr>
-          <th>GO:0005829</th>
-          <td>cytosol</td>
-          <td>Component</td>
-          <td>51</td>
-          <td>5309</td>
-          <td>0.001507</td>
-          <td>0.883755</td>
-        </tr>
-        <tr>
-          <th>GO:0005654</th>
-          <td>nucleoplasm</td>
-          <td>Component</td>
-          <td>39</td>
-          <td>3809</td>
-          <td>0.002239</td>
-          <td>0.984495</td>
-        </tr>
-        <tr>
-          <th>GO:0036038</th>
-          <td>MKS complex</td>
+          <th>GO:0042627</th>
+          <td>chylomicron</td>
           <td>Component</td>
           <td>2</td>
           <td>13</td>
-          <td>0.003191</td>
+          <td>0.001743</td>
           <td>1.0</td>
+          <td>0.02</td>
         </tr>
         <tr>
-          <th>GO:0003677</th>
-          <td>DNA binding</td>
+          <th>GO:0034361</th>
+          <td>very-low-density lipoprotein particle</td>
+          <td>Component</td>
+          <td>2</td>
+          <td>20</td>
+          <td>0.004153</td>
+          <td>1.0</td>
+          <td>0.02</td>
+        </tr>
+        <tr>
+          <th>GO:0097453</th>
+          <td>mesaxon</td>
+          <td>Component</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0.004834</td>
+          <td>1.0</td>
+          <td>0.01</td>
+        </tr>
+        <tr>
+          <th>GO:0004729</th>
+          <td>oxygen-dependent protoporphyrinogen oxidase ac...</td>
           <td>Function</td>
-          <td>17</td>
-          <td>938</td>
-          <td>0.000145</td>
-          <td>0.378556</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0.004834</td>
+          <td>1.0</td>
+          <td>0.01</td>
         </tr>
         <tr>
-          <th>GO:0000030</th>
-          <td>mannosyltransferase activity</td>
+          <th>GO:0061627</th>
+          <td>S-methylmethionine-homocysteine S-methyltransf...</td>
           <td>Function</td>
-          <td>3</td>
-          <td>19</td>
-          <td>0.000249</td>
-          <td>0.378556</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0.004834</td>
+          <td>1.0</td>
+          <td>0.01</td>
         </tr>
         <tr>
-          <th>GO:0004689</th>
-          <td>phosphorylase kinase activity</td>
+          <th>GO:0032029</th>
+          <td>myosin tail binding</td>
+          <td>Function</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0.004834</td>
+          <td>1.0</td>
+          <td>0.01</td>
+        </tr>
+        <tr>
+          <th>GO:0030742</th>
+          <td>GTP-dependent protein binding</td>
           <td>Function</td>
           <td>2</td>
-          <td>4</td>
-          <td>0.000255</td>
-          <td>0.378556</td>
+          <td>22</td>
+          <td>0.005018</td>
+          <td>1.0</td>
+          <td>0.02</td>
         </tr>
         <tr>
-          <th>GO:0008510</th>
-          <td>sodium:bicarbonate symporter activity</td>
+          <th>GO:0004364</th>
+          <td>glutathione transferase activity</td>
           <td>Function</td>
           <td>2</td>
-          <td>6</td>
-          <td>0.000633</td>
-          <td>0.703683</td>
-        </tr>
-        <tr>
-          <th>GO:0008296</th>
-          <td>3'-5'-exodeoxyribonuclease activity</td>
-          <td>Function</td>
-          <td>2</td>
-          <td>7</td>
-          <td>0.000882</td>
-          <td>0.784728</td>
-        </tr>
-        <tr>
-          <th>GO:0048742</th>
-          <td>regulation of skeletal muscle fiber development</td>
-          <td>Process</td>
-          <td>2</td>
-          <td>3</td>
-          <td>0.000128</td>
+          <td>28</td>
+          <td>0.008057</td>
           <td>1.0</td>
+          <td>0.02</td>
         </tr>
         <tr>
-          <th>GO:0006091</th>
-          <td>generation of precursor metabolites and energy</td>
-          <td>Process</td>
-          <td>4</td>
-          <td>47</td>
-          <td>0.000256</td>
-          <td>1.0</td>
-        </tr>
-        <tr>
-          <th>GO:1904294</th>
-          <td>positive regulation of ERAD pathway</td>
-          <td>Process</td>
-          <td>2</td>
-          <td>7</td>
-          <td>0.000882</td>
-          <td>1.0</td>
-        </tr>
-        <tr>
-          <th>GO:0015701</th>
-          <td>bicarbonate transport</td>
-          <td>Process</td>
-          <td>3</td>
-          <td>29</td>
-          <td>0.000896</td>
-          <td>1.0</td>
-        </tr>
-        <tr>
-          <th>GO:0034983</th>
-          <td>peptidyl-lysine deacetylation</td>
+          <th>GO:0045652</th>
+          <td>regulation of megakaryocyte differentiation</td>
           <td>Process</td>
           <td>2</td>
           <td>8</td>
-          <td>0.001171</td>
+          <td>0.000636</td>
           <td>1.0</td>
+          <td>0.02</td>
+        </tr>
+        <tr>
+          <th>GO:0045665</th>
+          <td>negative regulation of neuron differentiation</td>
+          <td>Process</td>
+          <td>3</td>
+          <td>58</td>
+          <td>0.002789</td>
+          <td>1.0</td>
+          <td>0.03</td>
+        </tr>
+        <tr>
+          <th>GO:0045653</th>
+          <td>negative regulation of megakaryocyte different...</td>
+          <td>Process</td>
+          <td>2</td>
+          <td>18</td>
+          <td>0.003365</td>
+          <td>1.0</td>
+          <td>0.02</td>
+        </tr>
+        <tr>
+          <th>GO:1905608</th>
+          <td>positive regulation of presynapse assembly</td>
+          <td>Process</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0.004834</td>
+          <td>1.0</td>
+          <td>0.01</td>
+        </tr>
+        <tr>
+          <th>GO:1905095</th>
+          <td>negative regulation of apolipoprotein A-I-medi...</td>
+          <td>Process</td>
+          <td>1</td>
+          <td>1</td>
+          <td>0.004834</td>
+          <td>1.0</td>
+          <td>0.01</td>
         </tr>
       </tbody>
     </table>
@@ -936,10 +1138,10 @@ The function FunctionEnrich return two object:
 
 .. code:: ipython3
 
-    from MATTE.analysis import Fig_Fuction
+    from TENA.analysis import Fig_Fuction
     f = Fig_Fuction(target,"p_value",dpi=300)
 
 
 
-.. image:: output_24_0.png
+.. image:: output_30_0.png
 
