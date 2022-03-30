@@ -1,4 +1,4 @@
-MATTE User Guide
+User Guide
 ================
 
 The user guide will talk about how the pipeline is implemented and how
@@ -7,10 +7,9 @@ to modified pipeline or setup a custom pipeline.
 Overview of MATTE
 -----------------
 
-|image.png| |image-2.png|
 
-.. |image.png| image:: attachment:image.png
-.. |image-2.png| image:: attachment:image-2.png
+.. image:: image.png
+.. image:: image-2.png
 
 Gene clustering process
 -----------------------

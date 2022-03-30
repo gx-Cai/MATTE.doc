@@ -1,4 +1,4 @@
-MATTE package Quick Start
+Quick Start
 =========================
 
 Description
@@ -14,7 +14,7 @@ sure module or network structure is preserved in all of the phenotypes.
 To that end, we proposed MATTE to find the conserved module and diverged
 module by treating genes from different phenotypes as individual ones.
 By doing so, meaningful markers and modules can be found to better
-understand what’s really difference between phenotypes.
+understand what's really difference between phenotypes.
 
 **Advantages**
 
@@ -42,7 +42,7 @@ Install from pip is recommended.
 
    pip install MATTE
 
-Genes’ Clustering
+Genes' Clustering
 -----------------
 
 1. Preprocess
