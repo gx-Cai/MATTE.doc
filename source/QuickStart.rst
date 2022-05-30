@@ -1,4 +1,4 @@
-Quick Start
+MATTE package Quick Start
 =========================
 
 Description
@@ -14,7 +14,7 @@ sure module or network structure is preserved in all of the phenotypes.
 To that end, we proposed MATTE to find the conserved module and diverged
 module by treating genes from different phenotypes as individual ones.
 By doing so, meaningful markers and modules can be found to better
-understand what's really difference between phenotypes.
+understand what’s really difference between phenotypes.
 
 **Advantages**
 
@@ -42,7 +42,7 @@ Install from pip is recommended.
 
    pip install MATTE
 
-Genes' Clustering
+Genes’ Clustering
 -----------------
 
 1. Preprocess
@@ -57,14 +57,14 @@ Pipeline
     import MATTE
     print(MATTE.__version__)
     ## init with default settings
-    pipeline = MATTE.AlignPipe(init=True)
+    pipeline = MATTE.AlignPipe(stats_type='mean', target='cluster', preprocess=True)
     ## Showing the Pipe composition
     pipeline
 
 
 .. parsed-literal::
 
-    1.1.1
+    1.2.1
     
 
 
@@ -75,11 +75,10 @@ Pipeline
     ## STEP 0 	<PipeFunc> inputs_check()
     ## STEP 1 	<PipeFunc> RPKM2TPM()
     ## STEP 2 	<PipeFunc> log2transform()
-    ## STEP 3 	<PipeFunc> exp_filter(gene_filter=None)
-    ## STEP 4 	<PipeFunc> Kernel_transform(kernel_type='mean',centering_kernel=True,outer_subtract_absolute=True,double_centering=True)
+    ## STEP 3 	<PipeFunc> expr_filter(gene_filter=None)
+    ## STEP 4 	<PipeFunc> LocKernel_Transform(kernel_type='mean',centering_kernel=True,outer_subtract_absolute=True,double_centering=True)
     ## STEP 5 	PCA(n_components=16)
-    ## STEP 6 	<PipeFunc> adding_weights()
-    ## CLUSTER STEP 0 	<PipeFunc> CrossCluster()
+    ## CLUSTER STEP 0 	<PipeFunc> CrossCluster(preset='kmeans',n_clusters=8,method='a',dist_type='a',n_iters=20)
     ## CLUSTER STEP 1 	<PipeFunc> build_results()
 
 
@@ -97,11 +96,11 @@ Pipeline
     ([<PipeFunc> inputs_check(),
       <PipeFunc> RPKM2TPM(),
       <PipeFunc> log2transform(),
-      <PipeFunc> exp_filter(gene_filter=None),
-      <PipeFunc> Kernel_transform(kernel_type='mean',centering_kernel=True,outer_subtract_absolute=True,double_centering=True),
-      PCA(n_components=16),
-      <PipeFunc> adding_weights()],
-     [<PipeFunc> CrossCluster(), <PipeFunc> build_results()])
+      <PipeFunc> expr_filter(gene_filter=None),
+      <PipeFunc> LocKernel_Transform(kernel_type='mean',centering_kernel=True,outer_subtract_absolute=True,double_centering=True),
+      PCA(n_components=16)],
+     [<PipeFunc> CrossCluster(preset='kmeans',n_clusters=8,method='a',dist_type='a',n_iters=20),
+      <PipeFunc> build_results()])
 
 
 
@@ -115,6 +114,21 @@ Pipeline
     # basic usage
     R = pipeline.calculate(df_exp=data['df_exp'],df_pheno=data['df_pheno'])
 
+
+.. parsed-literal::
+
+    Mon May 30 15:25:52 2022	 Running function <PipeFunc> inputs_check()
+    Mon May 30 15:25:52 2022	 Running function <PipeFunc> RPKM2TPM()
+    Mon May 30 15:25:52 2022	 Running function <PipeFunc> log2transform()
+    Mon May 30 15:25:52 2022	 Running function <PipeFunc> expr_filter(gene_filter=None)
+    Mon May 30 15:25:52 2022	 Running function <PipeFunc> LocKernel_Transform(kernel_type='mean',centering_kernel=True,outer_subtract_absolute=True,double_centering=True)
+    Mon May 30 15:25:52 2022	 Calculating the kernel matrix using mean
+    Mon May 30 15:25:53 2022	 Tranforming using model PCA(n_components=16)
+    Mon May 30 15:25:58 2022	 Running function <PipeFunc> CrossCluster(preset='kmeans',n_clusters=8,method='a',dist_type='a',n_iters=20)
+    Mon May 30 15:25:58 2022	 Running function <PipeFunc> build_results()
+    Mon May 30 15:25:58 2022	 building cluster results
+    
+
 Inputs
 ~~~~~~
 
@@ -122,6 +136,7 @@ Inputs
 
     ## Standard inputs
     data['df_exp']
+
 
 
 
@@ -439,9 +454,11 @@ Inputs
     </div>
 
 
+
 .. code:: ipython3
 
     data['df_pheno']
+
 
 
 
@@ -461,6 +478,7 @@ Inputs
     Length: 100, dtype: object
 
 
+
 Clustering Results
 ~~~~~~~~~~~~~~~~~~
 
@@ -473,13 +491,12 @@ Clustering Results
 
 .. parsed-literal::
 
-    {'error': 23.744632494143193,
+    {'error': 0.019708484590104557,
      'method': 'kmeans_a',
      'dist_type': 'a',
      'n_clusters': 8,
      'npass': 20,
-     'score': 5099.612952032368,
-     'Process': "MATTE calculation pipeline\n## STEP 0 \t<PipeFunc> inputs_check()\n## STEP 1 \t<PipeFunc> RPKM2TPM()\n## STEP 2 \t<PipeFunc> log2transform()\n## STEP 3 \t<PipeFunc> exp_filter(gene_filter=None)\n## STEP 4 \t<PipeFunc> Kernel_transform(kernel_type='mean',centering_kernel=True,outer_subtract_absolute=True,double_centering=True)\n## STEP 5 \tPCA(n_components=16)\n## STEP 6 \t<PipeFunc> adding_weights()\n## CLUSTER STEP 0 \t<PipeFunc> CrossCluster()\n## CLUSTER STEP 1 \t<PipeFunc> build_results()\n"}
+     'score': 1201.8480840703078}
 
 
 
@@ -518,8 +535,8 @@ Clustering Results
       <tbody>
         <tr>
           <th>gene0</th>
-          <td>3</td>
-          <td>4</td>
+          <td>6</td>
+          <td>1</td>
           <td>False</td>
         </tr>
         <tr>
@@ -530,19 +547,19 @@ Clustering Results
         </tr>
         <tr>
           <th>gene2</th>
-          <td>3</td>
-          <td>7</td>
+          <td>6</td>
+          <td>2</td>
           <td>False</td>
         </tr>
         <tr>
           <th>gene3</th>
           <td>4</td>
-          <td>0</td>
+          <td>3</td>
           <td>False</td>
         </tr>
         <tr>
           <th>gene4</th>
-          <td>1</td>
+          <td>2</td>
           <td>4</td>
           <td>False</td>
         </tr>
@@ -560,20 +577,20 @@ Clustering Results
         </tr>
         <tr>
           <th>gene996</th>
-          <td>6</td>
-          <td>2</td>
-          <td>False</td>
+          <td>7</td>
+          <td>7</td>
+          <td>True</td>
         </tr>
         <tr>
           <th>gene997</th>
-          <td>3</td>
-          <td>3</td>
+          <td>6</td>
+          <td>6</td>
           <td>True</td>
         </tr>
         <tr>
           <th>gene998</th>
           <td>5</td>
-          <td>7</td>
+          <td>2</td>
           <td>False</td>
         </tr>
         <tr>
@@ -592,7 +609,7 @@ Clustering Results
 .. code:: ipython3
 
     from MATTE.analysis import Fig_SampleFeature
-    sf = R.SampleFeature()
+    sf = R.SampleFeature(corr=False)
     f = Fig_SampleFeature(sf,R.pheno)
 
 
@@ -609,59 +626,51 @@ Clustering Results
 
 .. parsed-literal::
 
-    M3.4_0    5.639699
-    M4.3_0    4.175571
-    M0.3_0    3.417767
-    M3.7_0    3.283632
-    M5.3_0    3.222075
+    M6.1_0    3.900981
+    M6.7_0    3.737174
+    M4.6_0    3.094177
+    M6.5_0    2.974524
+    M2.6_0    2.712792
     dtype: float64
 
 
 
-Embedder
---------
+GeneRanker
+----------
 
-Embedder is a buildin class that select key genes or embed data by
+``GeneRanker`` is a buildin class that select key genes or embed data by
 module calculation.
 
 In this step, multiple phenotypes can be received.
 
 .. code:: ipython3
 
-    from MATTE import ModuleEmbedder
-    embedder = ModuleEmbedder(pipeline=pipeline)
+    from MATTE import GeneRanker
+    ranker = GeneRanker(
+        view='dist', # or cross-dist or module or gene 
+        pipeline=None)
 
 .. code:: ipython3
 
-    gene_rank = embedder.gene_rank(X = data['df_exp'].T, y=data['df_pheno'])
+    gene_rank = ranker.gene_rank(X = data['df_exp'].T, y=data['df_pheno'],verbose=False)
     gene_rank
 
 
-.. parsed-literal::
-
-    round 0: P0 vs P1: 100%|██████████| 1/1 [00:01<00:00,  1.34s/it]
-    
-
-.. parsed-literal::
-
-    There are 2 labels: ['P0' 'P1']
-    
-
 
 
 .. parsed-literal::
 
-    gene0      14.136113
-    gene1       6.884732
-    gene2       7.687132
-    gene3       6.754049
-    gene4       2.986378
+    gene0      49.673632
+    gene1      30.753564
+    gene2      52.062673
+    gene3      42.914437
+    gene4      29.995634
                  ...    
-    gene995     0.099898
-    gene996     0.000000
-    gene997     0.000000
-    gene998     0.095282
-    gene999     0.099898
+    gene995    30.475068
+    gene996    29.614591
+    gene997    52.701640
+    gene998    34.376199
+    gene999    30.843078
     Length: 1000, dtype: float64
 
 
@@ -687,26 +696,15 @@ Module Analysis
 .. parsed-literal::
 
     # --- Number of genes:
-    Same Module Genes: 613
-    Different Module Genes: 387
+    Same Module Genes: 592
+    Different Module Genes: 408
     # --- clustering score:
-    error 23.68317251501341
+    error 0.019385038222335626
     method kmeans_a
     dist_type a
     n_clusters 8
     npass 20
-    score 9367.940233968568
-    Process MATTE calculation pipeline
-    ## STEP 0 	<PipeFunc> inputs_check()
-    ## STEP 1 	<PipeFunc> RPKM2TPM()
-    ## STEP 2 	<PipeFunc> log2transform()
-    ## STEP 3 	<PipeFunc> exp_filter(gene_filter=None)
-    ## STEP 4 	<PipeFunc> Kernel_transform(kernel_type='mean',centering_kernel=True,outer_subtract_absolute=True,double_centering=True)
-    ## STEP 5 	PCA(n_components=16)
-    ## STEP 6 	<PipeFunc> adding_weights()
-    ## CLUSTER STEP 0 	<PipeFunc> CrossCluster()
-    ## CLUSTER STEP 1 	<PipeFunc> build_results()
-    
+    score 1347.1291565248384
     # --- samples' distribution:
     
 

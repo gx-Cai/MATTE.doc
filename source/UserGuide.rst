@@ -1,4 +1,4 @@
-User Guide
+MATTE User Guide
 ================
 
 The user guide will talk about how the pipeline is implemented and how
@@ -7,9 +7,10 @@ to modified pipeline or setup a custom pipeline.
 Overview of MATTE
 -----------------
 
+|image.png| |image-2.png|
 
-.. image:: image.png
-.. image:: image-2.png
+.. |image.png| image:: attachment:image.png
+.. |image-2.png| image:: attachment:image-2.png
 
 Gene clustering process
 -----------------------
@@ -111,19 +112,25 @@ first(parameter ``use_aff``). If not using preset implemention, by
 ``build_from_func`` or ``build_from_model`` to set up clustering
 methods.
 
-Module Embedder
----------------
+Gene Ranker
+-----------
 
-Module Embedder accept more than two phenotypes, and will use pipeline
-to calculate pairs of phenotypes one by one, fincally sum/concatenate
-the results. Inputs of ModuleEmbedder is not the same as pipeline. Row
-of Expression data is sample, column is gene.
+GeneRanker accept more than two phenotypes, and will use pipeline to
+calculate pairs of phenotypes one by one, fincally sum/concatenate the
+results. Inputs of ModuleEmbedder is not the same as pipeline. Row of
+Expression data is sample, column is gene.
 
-There are two types of embedding:
+There are two types of ranking :
 
-1. feature selection: ranking gene by its importance sum in each pair of
-   phenotypes comparasion. ``gene_rank`` methods ; ``gene_ranking`` (all
-   sum) ; ``gene_ranking_sep`` (each phenotypes)
-2. feature extraction: using pca to transfrom data to most variant
-   space. use the first principal component to presents samples.
-   ``transform_fit`` and ``transform`` methods
+There are several types of GeneRanker: 1. ‘module’ and ‘gene’
+
+will cluster genes according to their expression. And Use module SNR to
+rank genes. In gene mode, the SNR will be corrected by the correlation
+of gene expression and module eigen.
+
+2. ‘dist’,‘cross-dist’.
+
+In dist mode, the distance of each genes will be calculated. And genes
+will be ranked according to the sum of distance to each other genes. In
+cross-dist mode, the distance of differential expression and
+differential co-expression will be merged.
