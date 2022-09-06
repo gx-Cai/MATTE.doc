@@ -1,4 +1,4 @@
-MATTE package Quick Start
+Quick Start
 =========================
 
 Description
@@ -14,7 +14,7 @@ sure module or network structure is preserved in all of the phenotypes.
 To that end, we proposed MATTE to find the conserved module and diverged
 module by treating genes from different phenotypes as individual ones.
 By doing so, meaningful markers and modules can be found to better
-understand what’s really difference between phenotypes.
+understand what's really difference between phenotypes.
 
 **Advantages**
 
@@ -42,7 +42,7 @@ Install from pip is recommended.
 
    pip install MATTE
 
-Genes’ Clustering
+Genes' Clustering
 -----------------
 
 1. Preprocess
@@ -85,7 +85,7 @@ Pipeline
 
 .. code:: ipython3
 
-    ## In TenaPipe stores some functions (PipeFunc type)
+    ## In MATTEPipe stores some functions (PipeFunc type)
     pipeline.funcs,pipeline.cluster_func
 
 
@@ -680,7 +680,7 @@ Module Analysis
 
 .. code:: ipython3
 
-    from TENA.analysis import Fig_SampleFeature
+    from MATTE.analysis import Fig_SampleFeature
     
     # Showing the Summary.
     R.summary()
@@ -922,7 +922,7 @@ The format of input files are following:
 
 .. code:: ipython3
 
-    from TENA.analysis import FunctionEnrich
+    from MATTE.analysis import FunctionEnrich
     all_items,term_genes = FunctionEnrich(annote_file,selected_genes)
 
 
@@ -1136,7 +1136,7 @@ The function FunctionEnrich return two object:
 
 .. code:: ipython3
 
-    from TENA.analysis import Fig_Fuction
+    from MATTE.analysis import Fig_Fuction
     f = Fig_Fuction(target,"p_value",dpi=300)
 
 

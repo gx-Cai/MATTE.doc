@@ -50,6 +50,16 @@ Install from pip is recommended.
    pip install MATTE
 
 
+All requirements will be installed automatically, but not Intel(R) Extension for Scikit-learn(https://github.com/intel/scikit-learn-intelex).
+For computers with an Intel CPU, we highly recommend to install the package for fast clustering.
+
+::
+
+   pip install scikit-learn-intelex 
+   # or install by conda
+   # conda install scikit-learn-intelex -c conda-forge
+
+
 Indices and tables
 ==================
 

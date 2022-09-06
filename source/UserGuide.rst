@@ -1,4 +1,4 @@
-MATTE User Guide
+User Guide
 ================
 
 The user guide will talk about how the pipeline is implemented and how
@@ -9,8 +9,8 @@ Overview of MATTE
 
 |image.png| |image-2.png|
 
-.. |image.png| image:: attachment:image.png
-.. |image-2.png| image:: attachment:image-2.png
+.. |image.png| image:: image.png
+.. |image-2.png| image:: image-2.png
 
 Gene clustering process
 -----------------------
@@ -102,15 +102,7 @@ Keeping default preprocessing steps is highly recommended.
 Clustering
 ~~~~~~~~~~
 
-``CrossCluster`` is clustering function or clusterer warpper. There are
-three pre-implemented methods: ``kmeans``\ (wrapper from
-``Bio.Cluster.kclust``),\ ``spectrum`` and
-``spectral_bicluster``\ (wrapper from ``sklearn`` implemention). So
-other keywords parameters should seen in the original implemention. In
-spectrum clustering, by default will calculate distance matrix
-first(parameter ``use_aff``). If not using preset implemention, by
-``build_from_func`` or ``build_from_model`` to set up clustering
-methods.
+``CrossCluster`` is clustering function or clusterer warpper. There are three pre-implemented methods: ``kmeans`` (wrapper from ``Bio.Cluster.kclust``), ``spectrum`` and ``spectral_bicluster`` (wrapper from ``sklearn`` implemention). So other keywords parameters should seen in the original implemention. In spectrum clustering, by default will calculate distance matrix first(parameter ``use_aff``). If not using preset implemention, by ``build_from_func`` or ``build_from_model`` to set up clustering methods.
 
 Gene Ranker
 -----------
