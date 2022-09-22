@@ -51,7 +51,7 @@ Install from pip is recommended.
 
 
 All requirements will be installed automatically, but not Intel(R) Extension for Scikit-learn(https://github.com/intel/scikit-learn-intelex).
-For computers with an Intel CPU, we highly recommend to install the package for fast clustering.
+For computers with an Intel CPU or GPU, we highly recommend to install the package for fast clustering. But right now, there is a known issue that it is not compatible with `sklearn` v1.1, thus if using `sklearnex`, downgrade `sklearn` to 1.0.
 
 ::
 
